@@ -49,7 +49,7 @@ const Header = () => {
               </li>
             </ul>
 
-            <form
+            {/* <form
               className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3"
               role="search"
             >
@@ -59,7 +59,7 @@ const Header = () => {
                 placeholder="Search..."
                 aria-label="Search"
               />
-            </form>
+            </form> */}
 
             <div className="text-end">
               <button type="button" className="btn btn-outline-light me-2">

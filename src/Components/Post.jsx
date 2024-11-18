@@ -1,6 +1,6 @@
 import { AiFillDelete } from "react-icons/ai";
 import React, { useContext } from "react";
-import PostList from "./PostList";
+import { PostList } from "../store/post-list-provider";
 
 const Post = ({ post }) => {
   const { deletePost } = useContext(PostList);
@@ -21,7 +21,7 @@ const Post = ({ post }) => {
           <p className="card-text">{post.body}</p>
           {post.tags.map((tag) => (
             <span key={tag} className="badge hashtag text-bg-primary">
-              `#{tag}`
+              #{tag}
             </span>
           ))}
 
