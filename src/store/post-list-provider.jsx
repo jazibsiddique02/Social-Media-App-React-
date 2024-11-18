@@ -4,6 +4,7 @@ export const PostList = createContext({
   postList: [],
   addPost: () => {},
   deletePost: () => {},
+  addInitialPosts: () => {},
 });
 
 const postListReducer = (currPostList, action) => {
@@ -14,15 +15,23 @@ const postListReducer = (currPostList, action) => {
     );
   } else if (action.type == "ADD_POST") {
     newPostList = [action.payload, ...currPostList];
+  } else if (action.type == "ADD_INITIAL_POSTS") {
+    newPostList = action.payload.posts;
   }
   return newPostList;
 };
 
 const PostListProvider = ({ children }) => {
-  const [postList, dispatchPostList] = useReducer(
-    postListReducer,
-    DEFAULT_POST_LIST
-  );
+  const [postList, dispatchPostList] = useReducer(postListReducer, []);
+
+  const addInitialPosts = (posts) => {
+    dispatchPostList({
+      type: "ADD_INITIAL_POSTS",
+      payload: {
+        posts,
+      },
+    });
+  };
 
   const addPost = (userId, postTitle, postBody, reactions, tags) => {
     dispatchPostList({
@@ -32,7 +41,7 @@ const PostListProvider = ({ children }) => {
         title: postTitle,
         body: postBody,
         reactions: reactions,
-        userId: reactions,
+        userId: userId,
         tags: tags,
       },
     });
@@ -53,6 +62,7 @@ const PostListProvider = ({ children }) => {
         postList,
         addPost,
         deletePost,
+        addInitialPosts,
       }}
     >
       {children}
@@ -60,22 +70,4 @@ const PostListProvider = ({ children }) => {
   );
 };
 
-const DEFAULT_POST_LIST = [
-  {
-    id: "1",
-    title: "Going Lahore",
-    body: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nemo suscipit saepe obcaecati voluptate ullam esse molestias. Dolorum tempora itaque dolores nihil tempore! Quas libero maiores explicabo ipsum fugit officia suscipit quo laborum facere nam.",
-    reactions: 2,
-    userId: "user-9",
-    tags: ["Cool", "Nice", "Vacation"],
-  },
-  {
-    id: "2",
-    title: "Going Karachi",
-    body: "Raja Jazib Siddique sit amet consectetur adipisicing elit. Nemo suscipit saepe obcaecati voluptate ullam esse molestias. Dolorum tempora itaque dolores nihil tempore! Quas libero maiores explicabo ipsum fugit officia suscipit quo laborum facere nam.",
-    reactions: 4,
-    userId: "user-2",
-    tags: ["Amazing", "Life", "Love"],
-  },
-];
 export default PostListProvider;
